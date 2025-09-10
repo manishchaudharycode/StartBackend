@@ -3,6 +3,7 @@ const fs = require("node:fs");
 
 
    // use of writeFile()
+   
 
 fs.writeFile("message.text", "write file ", (err) => {
   if (err) console.error(err);
