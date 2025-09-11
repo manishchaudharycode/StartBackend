@@ -82,6 +82,10 @@ app.get("/profile/:username", (req, res)=>{
    res.send(`welocme, ${req.params.username}`)
 
 })
+app.get("/profile/:username/:age", (req, res)=>{
+   res.send(req.params)
+
+})
 
 
 app.use((err, req,res, next)=>{
