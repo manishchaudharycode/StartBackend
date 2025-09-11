@@ -1,82 +1,85 @@
 
-// const fs = require("node:fs");
+const fs = require("node:fs");
 
 
 
-//    // use of writeFile()
+   // use of writeFile()
 
 
-// fs.writeFile("message.text", "write file ", (err) => {
-//   if (err) console.error(err);
-//   else console.log("The file has saved");
-// });
+fs.writeFile("message.text", "write file ", (err) => {
+  if (err) console.error(err);
+  else console.log("The file has saved");
+});
 
-//        // use of appendFile()
+       // use of appendFile()
 
-// fs.appendFile("message.text", " data to append", (err)=> {
-//     if(err) console.error(err);
-//     else console.log("append")
+fs.appendFile("message.text", " data to append", (err)=> {
+    if(err) console.error(err);
+    else console.log("append")
 
-// })
+})
 
-//         // use of copyFile()
+        // use of copyFile()
 
-// fs.copyFile("message.text", "copy.text", (err)=> {
-//     if(err) console.error(err);
-//     else console.log("copyfile")
+fs.copyFile("message.text", "copy.text", (err)=> {
+    if(err) console.error(err);
+    else console.log("copyfile")
 
-// })
+})
 
-//            // use of rename()
+           // use of rename()
 
-// fs.rename("message.text", "file.text", (err)=> {
-//     if(err) console.error(err);
-//     else console.log("rename file ")
+fs.rename("message.text", "file.text", (err)=> {
+    if(err) console.error(err);
+    else console.log("rename file ")
 
-// })
+})
 
-//           // use of inlink
+          // use of inlink
 
-// fs.unlink("file.text", (err)=> {
-//     if(err) console.error(err)
-//     else console.log("unlink file ")
-// })
+fs.unlink("file.text", (err)=> {
+    if(err) console.error(err)
+    else console.log("unlink file ")
+})
 
-//        // use of stat
+       // use of stat
 
-// fs.stat("message.text", (err, stats) => {
-//   if(err) console.log(err)
-//     else console.log("is file?", stats.isFile())
-// })
+fs.stat("message.text", (err, stats) => {
+  if(err) console.log(err)
+    else console.log("is file?", stats.isFile())
+})
 
 
-//          // use of readFile
-//  fs.readFile("message.text",(err, data ) => {
-//     if(err) console.error(err)
-//         else console.log("file data:", data.toString())
-//  })
+         // use of readFile
+ fs.readFile("message.text",(err, data ) => {
+    if(err) console.error(err)
+        else console.log("file data:", data.toString())
+ })
 
 
              // EXPRESS FRAMEWORK
 
-    const { error } = require("console");
+    const { error } = require("console"); 
 const express = require("express");
 const app = express();
+const path = require("path")
 
 
-// Basic route
+app.set('view engine', 'ejs');
+
+
 
 
 app.get("/", (req, res) => {
-  res.send("Hello, Express node js framework");
+  res.render("Script");
 });
  
 app.get("/login", (req, res)=>{
     res.send("Hello world ");
 })
 
-app.get("/profile", (req, res, next)=>{
-    return next(new Error("Not error"))
+app.get("/profile/:username", (req, res)=>{
+   res.send(`welocme, ${req.params.username}`)
 
 })
 
@@ -91,5 +94,7 @@ app.use((err, req,res, next)=>{
 app.listen(4000, ()=> {
     console.log("server is runing on " + 4000)
 });
+
+
 
 
