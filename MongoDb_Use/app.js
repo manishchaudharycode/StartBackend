@@ -1,41 +1,54 @@
 const express = require("express");
-
 const app = express();
-
-const Model = require("./userModel");
-const { model } = require("mongoose");
+const model = require("./userModel");
 
 app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.get("/create", async (req, res) => {
-  let createduser = await Model.create(
-    {
-      name: "sunny",
-      email: "sunny@gamil.com",
-      username: "sunny",
-    },
-    {
-      name: "kush",
-      email: "kush@gmail.com",
-      username: "kush",
-    },
-    {
-        name: "hanu",
-        email: "hanu@gmail.com",
-        username: "hanu"
-    },
-    {
-        name: "manish",
-        email: "manish@gamil.com",
-        username: "manish"
+app.use(express.json());
+
+app.post("/create", async (req, res) => {
+  // try {
+    const payload = await req.body;
+    console.log("payload",payload);
+    
+    if (!payload.email || !payload.name || !payload.password) {
+      return res.json(
+        {
+          message: "Fields are required",
+          status: false,
+        },
+        402
+      );
     }
-  );
-  res.send(createduser);
+
+    const existingUser = await model.findOne({ email: payload.email });
+    if (existingUser) {
+      return res.json({
+        message: "User aleady exist with this email",
+      });
+    }
+
+    const user = await model.create(payload);
+    return res.json({
+      message: "User Created Successfuly",
+      success: true,
+      user,
+    });
+  // } catch (error) {
+  //   return res.json(
+  //     {
+  //       error,
+  //       message: "Failed to create user",
+  //       status: false,
+  //     },
+  //     500
+  //   );
+  // }
 });
 
-app.get("/update", async (req, res) => {
+app.put("/update", async (req, res) => {
   const userUpadte = await Model.findOneAndUpdate(
     { username: "manish" },
     { name: "manish chaudhary" },
@@ -44,14 +57,26 @@ app.get("/update", async (req, res) => {
   res.send(userUpadte);
 });
 
-app.get("/read", async (req, res) => {
-  let users = await Model.find();
-  res.send(users);
+app.get("/users", async (req, res) => {
+  let users = await model.find();
+  res.json({
+    users
+  })
 });
 
-app.get("/delete",  async (req, res)=> {
-       let users  = await Model.findOneAndDelete({username: "ha"})
-       res.send(users)
-}) 
+app.delete("/user/:email", async (req, res) => {
+  const params = req.params
 
-app.listen(3000);
+  if(!params.email.includes("@")){
+    return res.send("Invaild email")
+  }
+
+  let users = await model.findOneAndDelete({ email: params.email });
+  res.json({
+    message: `user deleted of this email ${params.email}`
+  })
+});
+
+app.listen(3000, () => {
+  console.log("server is up");
+});

@@ -1,13 +1,13 @@
-
 const mongoose = require('mongoose')
 
 mongoose.connect("mongodb://127.0.0.1:27017/mydatabase")
 
- const userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     name: String, 
     username: String,
-    email: String
+    email: String,
+    password: String
 })
 
 
-module.exports = mongoose.model("user",userSchema )
+module.exports = mongoose.model("user",userSchema)
