@@ -3,7 +3,7 @@ const app = express();
 const model = require("./userModel");
 
 app.get("/", (req, res) => {
-  res.send("hello world");
+  res.send("index");
 });
 
 app.use(express.json());

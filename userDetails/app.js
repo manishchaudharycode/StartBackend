@@ -13,6 +13,16 @@ app.get('/', (req, res)=>{
     res.render('index')
 })
 
+app.post("/create", async (res, req)=> {
+    
+    const payload = await req.body
+    console.log("playload",payload);
+    
+})
+app.post("/login database connection")
 
 
-app.listen(3000)
+app.listen(3000, (err)=> {
+    console.log("server run up");
+    
+})
